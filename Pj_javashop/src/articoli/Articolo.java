@@ -28,6 +28,12 @@ public abstract class Articolo implements IArticolo, Cloneable {
 		this.descrizione = descrizione;
 		this.quantita = quantita;
 	}
+
+	public Articolo(String nome, String descrizione) {
+		this.nome = nome;
+		this.descrizione = descrizione;
+	}
+
 	public int getQuantita() {
 		return quantita;
 	}

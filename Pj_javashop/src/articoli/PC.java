@@ -7,7 +7,7 @@ public class PC extends Articolo {
 	Ram ram;
 	Hd hd;
 	Hd hd2;
-	int ricarico;
+	double ricarico;
 	String marca;
 	
 	public String getMarca() {
@@ -21,7 +21,7 @@ public class PC extends Articolo {
 
 
 	public PC(String nome, String descrizione, Processore processore, Ram ram,
-			Hd hd, int ricarico, int quantita) {
+			Hd hd, double ricarico, int quantita) {
 		super(nome, descrizione, quantita);
 		this.processore = processore;
 		this.ram = ram;
@@ -97,7 +97,7 @@ public class PC extends Articolo {
 
 
 
-	public int getRicarico() {
+	public double getRicarico() {
 		return ricarico;
 	}
 

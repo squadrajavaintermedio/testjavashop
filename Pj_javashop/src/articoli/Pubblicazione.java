@@ -41,9 +41,11 @@ public abstract class Pubblicazione extends Articolo{
 	}
 
 	public Pubblicazione(String nome, String descrizione, int quantita) {
-		super(nome, descrizione, quantita);
-		
-		
+		super(nome, descrizione, quantita);	
+	}
+
+	public Pubblicazione(String nome, String descrizione) {
+		super(nome, descrizione);
 	}
 
 	@Override
