@@ -15,10 +15,9 @@ public class DemoDBNegozioSQL {
 		DBNegozioSQL dbsql = new DBNegozioSQL("jdbc:sqlite:C:\\Users\\corso1\\Downloads\\sqlitestudio-3.1.1\\SQLiteStudio\\negozio");
 		ArrayList<Articolo> listaRisultato = new ArrayList<Articolo>();
 		listaRisultato = dbsql.articoli("pc");
-		System.out.println("prima di for " + listaRisultato.size());
 		for(int i = 0; i < listaRisultato.size(); i++){
 			PC pc = (PC)listaRisultato.get(i);
-			System.out.println(pc.getNome());
+			System.out.println("PC" + i + ":" + pc.getNome() + "----------------");
 			Processore proc = pc.getProcessore();
 			Ram ram = pc.getRam();
 			Hd hd = pc.getHd();
@@ -27,6 +26,16 @@ public class DemoDBNegozioSQL {
 				System.out.println(proc.scheda());
 			} else {
 				System.out.println(proc);
+			}
+			if(ram != null){
+				System.out.println(ram.scheda());
+			} else {
+				System.out.println(ram);
+			}
+			if(hd != null){
+				System.out.println(hd.scheda());
+			} else {
+				System.out.println(hd);
 			}
 		}
 	}
