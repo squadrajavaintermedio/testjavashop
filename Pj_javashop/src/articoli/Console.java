@@ -18,7 +18,7 @@ public class Console extends Articolo  {
 	@Override
 	public String scheda() {
 		// TODO Auto-generated method stub
-		return getNome()+ " " + getPrezzo();
+		return getNome()+ "\t" + getPrezzo();
 	}
 	
 	public String toXML()

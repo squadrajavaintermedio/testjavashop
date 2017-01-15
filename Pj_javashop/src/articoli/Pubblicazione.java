@@ -7,7 +7,6 @@ public abstract class Pubblicazione extends Articolo{
 	private String argomento;
 	private String tipo;
 	
-	
 	public String getTipo() {
 		return tipo;
 	}

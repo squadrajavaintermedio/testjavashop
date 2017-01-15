@@ -23,4 +23,7 @@ public class Libro extends Pubblicazione {
 		this.prezzo = prezzo;
 	}
 	
+	public String scheda() {
+		return getNome() + "\t" + getPrezzo();
+	}
 }

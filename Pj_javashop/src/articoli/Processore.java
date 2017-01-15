@@ -3,7 +3,7 @@ package articoli;
 public class Processore extends Articolo {
 
 	double prezzo;
-	int benchmark;
+	int benchmark = 0;
 	
 	public Processore(String nome, String descrizione, double prezzo,
 			int benchmark, int quantita) {
@@ -21,7 +21,7 @@ public class Processore extends Articolo {
 	@Override
 	public String scheda() {
 		// TODO Auto-generated method stub
-		return getNome()+" "+getDescrizione()+" "+benchmark;
+		return getNome() + "\t" + getDescrizione() + "\t" + benchmark;
 	}
 
 }

@@ -4,13 +4,12 @@ public class Ram extends Articolo {
 
 	private double prezzo;
 	private String tipo;
-	private int giga;
+	private int giga = 0;
 	
 	public Ram(String nome, String descrizione, double prezzo, int giga, int quantita/*,String tipo*/) {
 		super(nome, descrizione, quantita);
 		this.prezzo = prezzo;
 		this.giga = giga;
-//		this.tipo = tipo;
 	}
 
 	@Override
@@ -40,7 +39,7 @@ public class Ram extends Articolo {
 
 	@Override
 	public String scheda() {
-		return tipo+" "+getGiga();
+		return getNome() + "\t" + getGiga();
 	}
 
 	public String toXML()

@@ -20,14 +20,18 @@ public class DBNegozioSQL implements IDBNegozio {
 	ArrayList<Articolo> lista = new ArrayList<Articolo>();	// for cash
 	ArrayList<Articolo> utenti = new ArrayList<Articolo>();	// for cash
 	
-	private final static String CONSOLE = "console";
-	private final static String VIDEOGAMES = "videogames";
-	private final static String LIBRI = "libri";
-	private final static String RIVISTE = "riviste";
-	private final static String PROCESSORE = "processore";
-	private final static String RAM = "ram";
-	private final static String HD = "hd";
+
+	// JDBC
 	private final static String SQLITEJDBC = "org.sqlite.JDBC";
+
+	private final static String TYPE_STR_PC = "pc";
+	private final static String TYPE_STR_CONSOLE = "console";
+	private final static String TYPE_STR_VIDEOGAMES = "videogames";
+	private final static String TYPE_STR_LIBRI = "libri";
+	private final static String TYPE_STR_RIVISTE = "riviste";
+	private final static String TYPE_STR_PROCESSORE = "processore";
+	private final static String TYPE_STR_RAM = "ram";
+	private final static String TYPE_STR_HD = "hd";
 	
 	// SQL statement(SELECT)
 	private final static String SELECTCOUNTCONSOLE 		= "SELECT COUNT(*) FROM CONSOLE;";
@@ -37,13 +41,13 @@ public class DBNegozioSQL implements IDBNegozio {
 	private final static String SELECTCOUNTPC 			= "SELECT COUNT(*) FROM PC;";	
 
 	//
-	private final static String SELECTCONSOLE 			= "SELECT NOME,DESCRIZIONE,PREZZO,QUANTITA FROM CONSOLE;";
-	private final static String CONSOLE_NOME = "name";
-	private final static String CONSOLE_DESCRIZIONE = "descrizione";
-	private final static String CONSOLE_PREZZO = "prezzo";
-	private final static String CONSOLE_QUANTITA = "quantita";
+	private final static String SELECT_CONSOLE 			= "SELECT nome, descrizione, prezzo, quantita FROM console;";
+	private final static String TBL_CONSOLE_NOME = "nome";
+	private final static String TBL_CONSOLE_DESCRIZIONE = "descrizione";
+	private final static String TBL_CONSOLE_PREZZO = "prezzo";
+	private final static String TBL_CONSOLE_QUANTITA = "quantita";
 
-	private final static String SELECTVG 				= "SELECT "
+	private final static String SELECT_VG 				= "SELECT "
 			+ "videogiochi.*, CONSOLE.nome as console, vgcompa.PREZZO, vgcompa.disponibilita, vgcompa.quantita "
 			+ "FROM "
 			+ "CONSOLE,videogiochi,vgcompa "
@@ -51,30 +55,46 @@ public class DBNegozioSQL implements IDBNegozio {
 			+ "videogiochi.ID = vgcompa.idvideogiochi"
 			+ " AND "
 			+ "CONSOLE.ID = vgcompa.IDCONSOLE;";
-	private final static String VIDEOGAME = "videogame";
-	private final static String VIDEOGAME_NOME = "nome";
-	private final static String VIDEOGAME_DESCRIZIONE = "descrizione";
-	private final static String VIDEOGAME_PREZZO = "prezzo";
-	private final static String VIDEOGAME_CONSOLE = "console";
-	private final static String VIDEOGAME_DISPONIBILITA = "disponibilita";
-	private final static String VIDEOGAME_GENERE = "genere";
-	private final static String VIDEOGAME_QUANTITA = "quantita";	
+	private final static String TBL_VIDEOGAME_NOME = "nome";
+	private final static String TBL_VIDEOGAME_DESCRIZIONE = "descrizione";
+	private final static String TBL_VIDEOGAME_PREZZO = "prezzo";
+	private final static String TBL_VIDEOGAME_CONSOLE = "console";
+	private final static String TBL_VIDEOGAME_DISPONIBILITA = "disponibilita";
+	private final static String TBL_VIDEOGAME_GENERE = "genere";
+	private final static String TBL_VIDEOGAME_QUANTITA = "quantita";	
 
-	private final static String SELECTPCANDCOMPONENTI 	= "SELECT pc.*, componenti.nome componente, componenti.descrizione cmpdescrizione, componenti.tipo "
+	private final static String SELECT_PCANDCOMPONENTI 	= "SELECT pc.*, componenti.nome componente, componenti.descrizione cmpdescrizione, componenti.tipo "
 			+ " FROM pc, componenti, pccompatibile"
 			+ " WHERE "
 			+ " pc.id = pccompatibile.idpc "
 			+ " AND "
 			+ " componenti.id = pccompatibile.idcomponenti "
 			+ " ORDER BY pc.id;";
-	private final static String PC = "pc";
-	private final static String PC_NOME = "nome";
-	private final static String PC_DESCRIZIONE = "descrizione";
-	private final static String PC_RICARICO = "ricarico";
-	private final static String PC_QUANTITA = "quantita";
-	private final static String PC_TIPO = "tipo";
-	private final static String PC_COMPONENTE = "componenti";
-	private final static String PC_CMPDESCRIZIONE = "cmpdescrizione";
+	private final static String TBL_PC_NOME = "nome";
+	private final static String TBL_PC_DESCRIZIONE = "descrizione";
+	private final static String TBL_PC_RICARICO = "ricarico";
+	private final static String TBL_PC_QUANTITA = "quantita";
+	private final static String TBL_PC_TIPO = "tipo";
+	private final static String TBL_PC_COMPONENTE = "componente";
+	private final static String TBL_PC_CMPDESCRIZIONE = "cmpdescrizione";
+
+	private final static String SELECT_LIBRI = "SELECT * FROM libri;";
+	private final static String TBL_LIBRI_NOME = "nome";
+	private final static String TBL_LIBRI_DESCRIZIONE = "descrizione";
+	private final static String TBL_LIBRI_QUANTITA = "quantita";
+	private final static String TBL_LIBRI_PREZZO = "prezzo";
+
+	private final static String SELECT_RIVISTE = "SELECT "
+			+ " riviste.*, autori.nome as autori"
+			+ " FROM "
+			+ " riviste, autori "
+			+ " WHERE "
+			+ " autori.id = riviste.idautori;";
+	private final static String TBL_RIVISTE_NOME = "nome";
+	private final static String TBL_RIVISTE_DESCRIZIONE = "descrizione";
+	private final static String TBL_RIVISTE_AUTORI = "autori";
+	private final static String TBL_RIVISTE_PERIODICITA = "periodicita";
+	private final static String TBL_RIVISTE_PREZZO = "prezzo";
 
 	//
 	private final static String SELECTCONSOLEPARAM		= "SELECT * "
@@ -97,7 +117,9 @@ public class DBNegozioSQL implements IDBNegozio {
 															+ " AND pc.prezzo < ? AND pc.qta > ? AND pc.descrizione = ?";
 
 	// SQL statement(INSERT)
-	private final static String INSERTCONSOLE= "";
+	private final static String INSERT_CONSOLE= "INSERT INTO console (nome,descrizione,prezzo,quantita) VALUES (?,?,?,?);";
+	private final static String INSERT_CONSOLE_IDAUTORE= "INSERT INTO console (name,descrizione,prezzo,quantita,idautori) VALUES (?,?,?,?,?);";
+	
 	private final static String INSERTVIDEOGAMES= "";
 	private final static String INSERTLIBRI= "";
 	private final static String INSERTRIVISTE= "";
@@ -112,7 +134,6 @@ public class DBNegozioSQL implements IDBNegozio {
 	private final static String UPDATELIBRI= "";
 	private final static String UPDATERIVISTE= "";
 	private final static String UPDATEPC= "";
-	private final static String UPDATEPC = "";
 	private final static String UPDATEPROCESSORE = "";
 	private final static String UPDATERAM = "";
 	private final static String UPDATEHD = "";
@@ -141,33 +162,33 @@ public class DBNegozioSQL implements IDBNegozio {
 	 */
 	public DBNegozioSQL(String percorso, boolean cash) {
 		
-		db = null;
-		try
-		{
-			Class.forName(SQLITEJDBC);
-			db = DriverManager.getConnection(percorso);
-		} catch(Exception e)
-		{
-			System.err.println(e.getClass().getName() + ": " + e.getMessage());
-			System.exit(0);
+		this(percorso);
+
+		if (cash) {
+			lista.addAll(articoli(TYPE_STR_PC));
+			lista.addAll(articoli(TYPE_STR_VIDEOGAMES));
+			lista.addAll(articoli(TYPE_STR_LIBRI));
+			lista.addAll(articoli(TYPE_STR_RIVISTE));
+			lista.addAll(articoli(TYPE_STR_CONSOLE));
+			lista.addAll(articoli(TYPE_STR_PROCESSORE));
+			lista.addAll(articoli(TYPE_STR_RAM));
+			lista.addAll(articoli(TYPE_STR_HD));			
 		}
-		
-		lista.addAll(articoli(PC));
-		lista.addAll(articoli(VIDEOGAME));
-		lista.addAll(articoli(LIBRI));
-		lista.addAll(articoli(PROCESSORE));
-		lista.addAll(articoli(RAM));
-		lista.addAll(articoli(HD));
 	}
 
 	/*
-	 * 
+	 * Aggiunge l'articolo nel Database
+	 * Precondizione	:
+	 * 	
+	 * Argoritmo	:
+	 * 	
+	 * Input	: Articolo articolo
+	 * Output	: boolean
 	 */
-	public boolean addArticolo(Articolo Articolo) {
-		
-		boolean returnValue = false;
+	public int addArticolo(Articolo articolo) {
+
+		int returnValue = -1;
 		ArrayList<Object> params = new ArrayList<Object>();
-		Articolo articolo = null;
 		Console console = null;
 		VideogamePC vgpc= null;
 		VideogameConsole vgconsole = null;
@@ -184,7 +205,7 @@ public class DBNegozioSQL implements IDBNegozio {
 			params.add(console.getDescrizione());
 			params.add(console.getPrezzo());
 			params.add(console.getQuantita());
-			returnValue = add(INSERTCONSOLE, params);
+			returnValue = add(INSERT_CONSOLE, params);
 		} else if(articolo instanceof VideogamePC){
 			vgpc = (VideogamePC) articolo;
 			params.add(vgpc.getNome());
@@ -228,19 +249,21 @@ public class DBNegozioSQL implements IDBNegozio {
 		} else {
 			
 		}
-			
-			
-		
 		return returnValue;		
 	}
 	
 	/*
 	 * 
+	 * Precondizione	:
+	 * 	
+	 * Argoritmo	:
+	 * 	
+	 * Input	:
+	 * Output	: 
 	 */
-	public boolean addArticolo(Articolo articolo, String autori) {
+	public int addArticolo(Articolo articolo, String autori) {
 		String sql = "";
-		int rs = 0;
-		boolean returnValue = false;
+		int returnValue = 0;
 		int idAutori = 0; 
 		
 		idAutori = getIdAutori(autori);
@@ -258,7 +281,7 @@ public class DBNegozioSQL implements IDBNegozio {
 				} else {
 					p.setInt(3,idAutori);
 				}
-				rs = p.executeUpdate();
+				returnValue = p.executeUpdate();
 			} catch (Exception e) {
 				e.getMessage();
 			}
@@ -268,15 +291,18 @@ public class DBNegozioSQL implements IDBNegozio {
 		{
 			VideogameConsole vgConsole = (VideogameConsole) articolo;
 		}
-		
-		if (rs == 1)
-			returnValue = true;
-		
+				
 		return returnValue;
 	}
 	
 	/*
-	 *
+	 * Conta la quantita dell articoli
+	 * Precondizione	:
+	 * 	I parametri devono essere "pc", "console", "videogames", "libri" e "riviste"
+	 * Argoritmo	:
+	 * 	chiama leggiDati(tipo)
+	 * Input	: String tipo
+	 * Output	: int quantita dell articoli
 	 */
 	public int numeroArticoli(String tipo) {
 		
@@ -287,19 +313,19 @@ public class DBNegozioSQL implements IDBNegozio {
 		try {
 			stmt = db.createStatement();
 			switch(tipo) {
-			case CONSOLE:
+			case TYPE_STR_CONSOLE:
 				rs = leggiDati(SELECTCOUNTCONSOLE);
 				break;
-			case VIDEOGAMES:
+			case TYPE_STR_VIDEOGAMES:
 				rs = leggiDati(SELECTCOUNTVIDEOGIOCHI);
 				break;
-			case LIBRI:
+			case TYPE_STR_LIBRI:
 				rs = leggiDati(SELECTCOUNTLIBRI);
 				break;
-			case RIVISTE:
+			case TYPE_STR_RIVISTE:
 				rs = leggiDati(SELECTCOUNTRIVISTE);
 				break;
-			case PC:
+			case TYPE_STR_PC:
 				rs = leggiDati(SELECTCOUNTPC);
 				break;
 			default:
@@ -313,7 +339,69 @@ public class DBNegozioSQL implements IDBNegozio {
 	}
 
 	/*
-	 *
+	 * Conta la quantita dell articoli
+	 * Precondizione	:
+	 * 	I parametri devono essere "pc", "console", "videogames", "libri" e "riviste"
+	 * Argoritmo	:
+	 * 	chiama leggiDatiCash(tipo)
+	 * Input	: String tipo
+	 * Output	: int quantita dell articoli
+	 */
+	public int numeroArticoliCash(String tipo){
+
+		int ris = 0;
+		
+		switch(tipo) {
+		case TYPE_STR_CONSOLE:
+			ris = leggiDatiCash(TYPE_STR_CONSOLE).size();
+			break;
+		case TYPE_STR_VIDEOGAMES:
+			ris = leggiDatiCash(TYPE_STR_VIDEOGAMES).size();
+			break;
+		case TYPE_STR_LIBRI:
+			ris = leggiDatiCash(TYPE_STR_LIBRI).size();
+			break;
+		case TYPE_STR_RIVISTE:
+			ris = leggiDatiCash(TYPE_STR_RIVISTE).size();
+			break;
+		case TYPE_STR_PC:
+			ris = leggiDatiCash(TYPE_STR_PC).size();
+			break;
+		default:
+		}
+			
+		return ris;
+		
+	}
+	
+	/*
+	 * 
+	 * Precondizione	:
+	 * 	
+	 * Argoritmo	:
+	 * 	
+	 * Input	:
+	 * Output	: 
+	 */
+	public int numeroArticoli(String tipo, boolean cash){
+		int ris = 0;
+		
+		if (cash)
+			ris = numeroArticoliCash(tipo);
+		else
+			ris = numeroArticoli(tipo);
+		
+		return ris;
+	}
+
+	/*
+	 * 
+	 * Precondizione	:
+	 * 	
+	 * Argoritmo	:
+	 * 	
+	 * Input	:
+	 * Output	: 
 	 */
 	public ArrayList<Articolo> articoli(String tipo) {
 		
@@ -327,53 +415,72 @@ public class DBNegozioSQL implements IDBNegozio {
 		Hd hd = null;	// for PC
 		Ram ram = null;	// for PC
 		boolean skipFlg = false;
-		String nomeForCompare = "";	// for PC
 		
 		try {
 			switch(tipo){
-			case CONSOLE:
-				dati = leggiDati(SELECTCONSOLE);
+			case TYPE_STR_CONSOLE:
+				dati = leggiDati(SELECT_CONSOLE);
 				while(dati.next())
 				{
-					lista.add(new Console(dati.getString(CONSOLE_NOME)
-							,dati.getString(CONSOLE_DESCRIZIONE)
-							,dati.getDouble(CONSOLE_PREZZO)
-							,dati.getInt(CONSOLE_QUANTITA)
+					lista.add(new Console(dati.getString(TBL_CONSOLE_NOME)
+							,dati.getString(TBL_CONSOLE_DESCRIZIONE)
+							,dati.getDouble(TBL_CONSOLE_PREZZO)
+							,dati.getInt(TBL_CONSOLE_QUANTITA)
 							));
 				}
 				break;
-			case VIDEOGAMES:
-				dati = leggiDati(SELECTVG);
+			case TYPE_STR_VIDEOGAMES:
+				dati = leggiDati(SELECT_VG);
 				while(dati.next())
 				{
-					if(dati.getString(CONSOLE).equals(PC))
-						lista.add(new VideogamePC(dati.getString(VIDEOGAME_NOME)
-								,dati.getString(VIDEOGAME_DESCRIZIONE)
-								,dati.getDouble(VIDEOGAME_PREZZO)
-								,dati.getString(VIDEOGAME_CONSOLE)
-								,dati.getString(VIDEOGAME_DISPONIBILITA)
-								,dati.getString(VIDEOGAME_GENERE)
-								,dati.getInt(VIDEOGAME_QUANTITA)
+					if(dati.getString(TBL_VIDEOGAME_CONSOLE).equals(TYPE_STR_PC))
+						lista.add(new VideogamePC(dati.getString(TBL_VIDEOGAME_NOME)
+								,dati.getString(TBL_VIDEOGAME_DESCRIZIONE)
+								,dati.getDouble(TBL_VIDEOGAME_PREZZO)
+								,dati.getString(TBL_VIDEOGAME_CONSOLE)
+								,dati.getString(TBL_VIDEOGAME_DISPONIBILITA)
+								,dati.getString(TBL_VIDEOGAME_GENERE)
+								,dati.getInt(TBL_VIDEOGAME_QUANTITA)
 								));
 					else
-							lista.add(new VideogameConsole(dati.getString(VIDEOGAME_NOME)
-									,dati.getString(VIDEOGAME_DESCRIZIONE)
-									,dati.getDouble(VIDEOGAME_PREZZO)
-									,dati.getString(VIDEOGAME_CONSOLE)
-									,dati.getString(VIDEOGAME_DISPONIBILITA)
-									,dati.getString(VIDEOGAME_GENERE)
-									,dati.getInt(VIDEOGAME_QUANTITA)
+							lista.add(new VideogameConsole(dati.getString(TBL_VIDEOGAME_NOME)
+									,dati.getString(TBL_VIDEOGAME_DESCRIZIONE)
+									,dati.getDouble(TBL_VIDEOGAME_PREZZO)
+									,dati.getString(TBL_VIDEOGAME_CONSOLE)
+									,dati.getString(TBL_VIDEOGAME_DISPONIBILITA)
+									,dati.getString(TBL_VIDEOGAME_GENERE)
+									,dati.getInt(TBL_VIDEOGAME_QUANTITA)
 									));
 				}
-			case LIBRI:
 				break;
-			case RIVISTE:
-				break;
-			case PC:
-				dati = leggiDati(SELECTPCANDCOMPONENTI);
+			case TYPE_STR_LIBRI:
+				dati = leggiDati(SELECT_LIBRI);
 				while(dati.next())
 				{
-					if(!(nome.equals(dati.getString(PC_NOME))) && (skipFlg == true)) {
+					lista.add(new Libro(dati.getString(TBL_LIBRI_NOME)
+							,dati.getString(TBL_LIBRI_DESCRIZIONE)
+							,dati.getDouble(TBL_LIBRI_PREZZO)
+							,dati.getInt(TBL_LIBRI_QUANTITA)
+							));
+				}
+				break;
+			case TYPE_STR_RIVISTE:
+				dati = leggiDati(SELECT_RIVISTE);
+				while(dati.next())
+				{
+					lista.add(new Rivista(dati.getString(TBL_RIVISTE_NOME)
+							,dati.getString(TBL_RIVISTE_DESCRIZIONE)
+							,dati.getString(TBL_RIVISTE_AUTORI)
+							,dati.getString(TBL_RIVISTE_PERIODICITA)
+							,dati.getDouble(TBL_RIVISTE_PREZZO)
+							));
+				}
+				break;
+			case TYPE_STR_PC:
+				dati = leggiDati(SELECT_PCANDCOMPONENTI);
+				while(dati.next())
+				{
+					if(!(nome.equals(dati.getString(TBL_PC_NOME))) && (skipFlg == true)) {
 						lista.add(new PC(nome
 								,descrizione
 								,proc
@@ -383,19 +490,19 @@ public class DBNegozioSQL implements IDBNegozio {
 								,quantita
 								));
 					}
-					nome = dati.getString(PC_NOME);
-					descrizione = dati.getString(PC_DESCRIZIONE);
-					ricarico = dati.getDouble(PC_RICARICO);
-					quantita = dati.getInt(PC_QUANTITA);
-					switch(dati.getString(PC_TIPO)) {
-					case PROCESSORE:
-						proc = new Processore(dati.getString(PC_COMPONENTE),dati.getString(PC_CMPDESCRIZIONE),0,0,0);
+					nome = dati.getString(TBL_PC_NOME);
+					descrizione = dati.getString(TBL_PC_DESCRIZIONE);
+					ricarico = dati.getDouble(TBL_PC_RICARICO);
+					quantita = dati.getInt(TBL_PC_QUANTITA);
+					switch(dati.getString(TBL_PC_TIPO)) {
+					case TYPE_STR_PROCESSORE:
+						proc = new Processore(dati.getString(TBL_PC_COMPONENTE),dati.getString(TBL_PC_CMPDESCRIZIONE),0,0,0);
 						break;
-					case HD:
-						hd = new Hd(dati.getString(PC_COMPONENTE),dati.getString(PC_CMPDESCRIZIONE),0,0,0);
+					case TYPE_STR_HD:
+						hd = new Hd(dati.getString(TBL_PC_COMPONENTE),dati.getString(TBL_PC_CMPDESCRIZIONE),0,0,0);
 						break;
-					case RAM:
-						ram = new Ram(dati.getString(PC_COMPONENTE),dati.getString(PC_CMPDESCRIZIONE),0,0,0);
+					case TYPE_STR_RAM:
+						ram = new Ram(dati.getString(TBL_PC_COMPONENTE),dati.getString(TBL_PC_CMPDESCRIZIONE),0,0,0);
 						break;
 					default:
 					}
@@ -420,6 +527,12 @@ public class DBNegozioSQL implements IDBNegozio {
 
 	/*
 	 * 
+	 * Precondizione	:
+	 * 	
+	 * Argoritmo	:
+	 * 	
+	 * Input	:
+	 * Output	: 
 	 */
 	public ArrayList<Articolo> articoli(String tipo, double prezzomax, int quantitamin, String descrizione){
 		
@@ -437,7 +550,7 @@ public class DBNegozioSQL implements IDBNegozio {
 		try {
 			
 			switch(tipo){
-			case CONSOLE:
+			case TYPE_STR_CONSOLE:
 				rs = leggiDatiConParam(SELECTCONSOLEPARAM,params);
 				while(rs.next()){
 					resultList.add(new Console(rs.getString("nome")
@@ -447,16 +560,16 @@ public class DBNegozioSQL implements IDBNegozio {
 							));					
 				}
 				break;
-			case VIDEOGAME:
+			case TYPE_STR_VIDEOGAMES:
 				rs = leggiDatiConParam(SELECTVIDEOGAMESPARAM,params);
 				break;
-			case LIBRI:
+			case TYPE_STR_LIBRI:
 				rs = leggiDatiConParam(SELECTLIBRIPARAM,params);
 				break;
-			case RIVISTE:
+			case TYPE_STR_RIVISTE:
 				rs = leggiDatiConParam(SELECTRIVISTEPARAM,params);
 				break;
-			case PC:
+			case TYPE_STR_PC:
 				rs = leggiDatiConParam(SELECTPCPARAM,params);
 				break;
 			default:
@@ -471,6 +584,12 @@ public class DBNegozioSQL implements IDBNegozio {
 	
 	/*
 	 * 
+	 * Precondizione	:
+	 * 	
+	 * Argoritmo	:
+	 * 	
+	 * Input	:
+	 * Output	: 
 	 */
 	public boolean login(String email, String password){
 		boolean rs = false;
@@ -511,6 +630,12 @@ public class DBNegozioSQL implements IDBNegozio {
 
 	/*
 	 * 
+	 * Precondizione	:
+	 * 	
+	 * Argoritmo	:
+	 * 	
+	 * Input	:
+	 * Output	: 
 	 */
 	private int getIdAutori(String autori) {
 		int rs = 0;
@@ -532,6 +657,12 @@ public class DBNegozioSQL implements IDBNegozio {
 	
 	/*
 	 * 
+	 * Precondizione	:
+	 * 	
+	 * Argoritmo	:
+	 * 	
+	 * Input	:
+	 * Output	: 
 	 */
 	private ResultSet leggiDati(String SQLSelect) {
 		ResultSet rs = null;
@@ -549,6 +680,61 @@ public class DBNegozioSQL implements IDBNegozio {
 	
 	/*
 	 * 
+	 * Precondizione	:
+	 * 	
+	 * Argoritmo	:
+	 * 	
+	 * Input	:
+	 * Output	: 
+	 */
+	private ArrayList<Articolo> leggiDatiCash(String tipo){
+		ArrayList<Articolo> rtnList = new ArrayList<Articolo>();
+		
+		switch(tipo) {
+		case TYPE_STR_CONSOLE:
+			for (int i = 0; i < lista.size(); i++) {
+				if(lista.get(i) instanceof Console)
+					rtnList.add(lista.get(i));
+			}			
+			break;
+		case TYPE_STR_PC:
+			for (int i = 0; i < lista.size(); i++) {
+				if(lista.get(i) instanceof PC)
+					rtnList.add(lista.get(i));
+			}			
+			break;
+		case TYPE_STR_VIDEOGAMES:
+			for (int i = 0; i < lista.size(); i++) {
+				if((lista.get(i) instanceof VideogameConsole) || (lista.get(i) instanceof VideogamePC))
+					rtnList.add(lista.get(i));
+			}			
+		break;
+		case TYPE_STR_LIBRI:
+			for (int i = 0; i < lista.size(); i++) {
+				if(lista.get(i) instanceof Libro)
+					rtnList.add(lista.get(i));
+			}			
+			break;
+		case TYPE_STR_RIVISTE:
+			for (int i = 0; i < lista.size(); i++) {
+				if(lista.get(i) instanceof Rivista)
+					rtnList.add(lista.get(i));
+			}			
+			break;
+		default:
+		}
+		
+		return rtnList;
+	}
+	
+	/*
+	 * 
+	 * Precondizione	:
+	 * 	
+	 * Argoritmo	:
+	 * 	
+	 * Input	:
+	 * Output	: 
 	 */
 	private ResultSet leggiDatiConParam(String sql, ArrayList<Object> param) {
 		ResultSet rs = null;
@@ -582,19 +768,25 @@ public class DBNegozioSQL implements IDBNegozio {
 	}
 	
 	/*
-	 * 
+	 * Aggiunge articolo nel Database
+	 * Precondizione	:
+	 * 	
+	 * Argoritmo	:
+	 * 	
+	 * Input	:
+	 * Output	: int risultato del sql.
 	 */
-	private boolean add(String SQLInsert, ArrayList<Object> params) {
-		boolean rtnValue = false;
+	private int add(String SQLInsert, ArrayList<Object> params) {
+		int rtnValue = -1;
 		int result = 0;
 		try {
 			PreparedStatement preparedstatement = db.prepareStatement(SQLInsert);
-			
+			preparedstatement.setString(1, (String) params.get(0));
+			preparedstatement.setString(2, (String) params.get(1));
+			preparedstatement.setDouble(3, (Double) params.get(2));
+			preparedstatement.setInt(4, (Integer) params.get(3));
 			// executeUpdate:return the row count of insert
-			result = preparedstatement.executeUpdate(SQLInsert);
-			
-			if (!(result == 0))
-				rtnValue = true;
+			rtnValue = preparedstatement.executeUpdate();
 			
 		} catch (Exception e){
 			System.out.println(e.getMessage());
@@ -605,6 +797,12 @@ public class DBNegozioSQL implements IDBNegozio {
 
 	/*
 	 * 
+	 * Precondizione	:
+	 * 	
+	 * Argoritmo	:
+	 * 	
+	 * Input	:
+	 * Output	: 
 	 */
 	private boolean modifica(String SQLUpdate) {
 		boolean rtnValue = false;
@@ -627,6 +825,12 @@ public class DBNegozioSQL implements IDBNegozio {
 	
 	/*
 	 * 
+	 * Precondizione	:
+	 * 	
+	 * Argoritmo	:
+	 * 	
+	 * Input	:
+	 * Output	: 
 	 */
 	private String preparaSql(ArrayList<Object> param) {
 		String sql = "";

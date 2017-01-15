@@ -20,11 +20,11 @@ public class VideogameConsole extends Videogame {
 	@Override
 	public String toString() {
 		return "VideogameConsole \n"
-				+ "Piattaforma: " + getPiattaforma()
-				+ "\nPrezzo: " + getPrezzo() + " €"
-				+ "\nNome: " + getNome()
-				+ "\nDescrizione: " + getDescrizione()
-				+ "\nQuantità: " + getQuantita();
+				+ "Piattaforma\t:" + getPiattaforma()
+				+ "\nPrezzo\t\t:" + getPrezzo()
+				+ "\nNome\t\t:" + getNome()
+				+ "\nDescrizione\t:" + getDescrizione()
+				+ "\nQuantita\t:" + getQuantita();
 	}
 	
 	

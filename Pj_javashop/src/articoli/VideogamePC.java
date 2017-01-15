@@ -17,12 +17,12 @@ public class VideogamePC extends Videogame {
 	
 	@Override
 	public String scheda() {
-		return "VideogameConsole \n"
-				+ "Piattaforma: " + getPiattaforma()
-				+ "\nPrezzo: " + getPrezzo() + " €"
-				+ "\nNome: " + getNome()
-				+ "\nDescrizione: " + getDescrizione()
-				+ "\nQuantità: " + getQuantita();
+		return "VideogamePC\n"
+				+ "Piattaforma\t:" + getPiattaforma()
+				+ "\nPrezzo\t\t:" + getPrezzo()
+				+ "\nNome\t\t:" + getNome()
+				+ "\nDescrizione\t:" + getDescrizione()
+				+ "\nQuantita\t:" + getQuantita();
 	}
 	
 	

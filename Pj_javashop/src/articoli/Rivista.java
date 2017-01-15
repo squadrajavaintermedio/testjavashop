@@ -25,6 +25,9 @@ public class Rivista extends Periodico {
 		return this;
 	}
 
+	public String scheda() {
+		return getNome() + "\t" + getPrezzo() + "\t" + getAutore() + "\t" + getPeriodicita();
+	}
 
 }
 

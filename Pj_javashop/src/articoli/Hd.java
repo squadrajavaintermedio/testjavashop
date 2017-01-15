@@ -2,8 +2,8 @@ package articoli;
 
 public class Hd extends Articolo {
 
-	double prezzo=0;
-	int capacita=0;
+	double prezzo = 0;
+	int capacita = 0;
 	
 	
 	
@@ -22,7 +22,7 @@ public Hd(String nome, String descrizione, double prezzo, int capacita, int quan
 	@Override
 	public String scheda() {
 		// TODO Auto-generated method stub
-		return getNome()+" "+capacita;
+		return getNome() + "\t" + capacita;
 	}
 
 	public int getCapacita() {

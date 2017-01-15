@@ -130,12 +130,12 @@ public class PC extends Articolo {
 	public String scheda() {
 		// TODO Auto-generated method stub
 		super.scheda();
-		String ris 	= 	"PC "+getNome()+"\n";
-		ris			+=	"Processore:" + processore.scheda() + "\n";
-		ris			+= 	"RAM:"+ram.scheda() + "\n";
-		ris			+= 	"Hd:"+hd.scheda() + "\n";
-		if(hd2!=null) ris+= "Secondo hd:"+hd2.scheda()+"\n";
-		if(schedavideo!=null) ris+= "Scheda video:"+schedavideo.scheda()+"\n";
+		String ris	= 	"Nome\t\t:"	+	getNome()	+	"\n";
+		ris			+=	"Processore\t:"	+	processore.scheda()	+	"\n";
+		ris			+= 	"Ram\t\t:"		+	ram.scheda()	+	"\n";
+		ris			+= 	"Hd1\t\t:"	+	hd.scheda()	+	"\n";
+		if(hd2!=null) ris	+= "Hd2\t\t:"	+hd2.scheda()	+	"\n";
+		if(schedavideo!=null) ris	+=	"Scheda video\t:"	+	schedavideo.scheda()	+	"\n";
 		return ris;
 		
 	}
