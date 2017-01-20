@@ -99,7 +99,9 @@ public abstract class Articolo implements IArticolo, Cloneable {
 		return 0;
 	}
 	
-	public String toXML(){return "";}
+	public String toXML(){
+		return "";
+	}
 
 	public void setPrezzo(int prezzo) {
 	

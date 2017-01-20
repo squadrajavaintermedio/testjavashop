@@ -19,8 +19,8 @@ import articoli.Hd;
 
 public class DemoDBNegozioSQL {
 
-	//private final static String JDBC = "jdbc:sqlite:C:\\Users\\corso1\\Downloads\\sqlitestudio-3.1.1\\SQLiteStudio\\negozio";
-	private final static String JDBC = "jdbc:sqlite:/Users/hirokiinoue/sqlite/negozio.db";
+	private final static String JDBC = "jdbc:sqlite:C:\\sqlite\\negozio.db";
+	//private final static String JDBC = "jdbc:sqlite:/Users/hirokiinoue/sqlite/negozio.db";
 	
 	private final static String TYPE_STR_PC = "pc";
 	private final static String TYPE_STR_CONSOLE = "console";
